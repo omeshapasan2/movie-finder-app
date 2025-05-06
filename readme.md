@@ -1,6 +1,6 @@
 # 🎬 Movie App
 
-A simple React-based movie search and favorites app using the [TMDb API](https://www.themoviedb.org/documentation/api). Users can browse popular movies, search by title, and add/remove favorites — all persisted in local storage.
+A simple React-based movie search and favorites app using the [TMDb API](https://www.themoviedb.org/documentation/api). Users can browse popular movies, search by title, and add/remove favorites.
 
 ---
 
@@ -12,8 +12,7 @@ A simple React-based movie search and favorites app using the [TMDb API](https:/
 - 🔍 **Search Movies** by title via TMDb API
 - 📈 **Popular Movies** auto-loaded on homepage
 - ❤️ **Favorites Management** (add/remove)
-- 💾 **Persistent State** via localStorage
-- 💅 **Responsive UI** with modern styling
+- 🤖 **Responsive UI** with modern styling
 - 🧭 **Routing** with React Router (`Home`, `Favourites`)
 - 🎨 **Custom UI Controls** (with icon buttons)
 
@@ -82,9 +81,16 @@ src/
 └── index.js
 ```
 
+🚀 Upcoming Features
+- 🔐 User Authentication – Login and register to access your account across devices
+- 🔄 Cloud Sync – Keep your favourites synced on all logged-in devices
+- 🌓 Theme Toggle – Switch between dark and light mode
+- 📺 TV Series Support – Browse and favourite your favourite shows
 
 📸 Screenshots
 
 Home Page	
+![image](https://github.com/user-attachments/assets/3b0c4ac4-a79e-431b-90f2-6b12979b05d4)
 
 Favourites Page
+![image](https://github.com/user-attachments/assets/ae7f0ad4-f3f8-4e8a-bc29-4d28d49ed16a)
