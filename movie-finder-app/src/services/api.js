@@ -16,3 +16,15 @@ export const searchMovies = async (query) => {
     const data = await response.json()
     return data.results
 };
+
+export const searchTVShows = async (query) => {
+    if (!token) await authenticateTVDB();
+  
+    const response = await fetch(`${BASE_URL}/search?query=${encodeURIComponent(query)}`, {
+      headers: getHeaders(),
+    });
+  
+    const data = await response.json();
+    return data.data; // This contains the TV shows list
+};
+  

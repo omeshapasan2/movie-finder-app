@@ -19,6 +19,7 @@ function App() {
       </main>
     </MovieProvider>
   )
+  
 }
 
 export default App
