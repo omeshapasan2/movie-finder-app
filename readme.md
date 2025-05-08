@@ -82,7 +82,6 @@ src/
 ```
 
 🚀 Upcoming Features
-- 🔐 User Authentication – Login and register to access your account across devices
 - 🔄 Cloud Sync – Keep your favourites synced on all logged-in devices
 - 🌓 Theme Toggle – Switch between dark and light mode
 - 📺 TV Series Support – Browse and favourite your favourite shows
@@ -90,7 +89,4 @@ src/
 📸 Screenshots
 
 Home Page	
-![image](https://github.com/user-attachments/assets/3b0c4ac4-a79e-431b-90f2-6b12979b05d4)
-
-Favourites Page
-![image](https://github.com/user-attachments/assets/ae7f0ad4-f3f8-4e8a-bc29-4d28d49ed16a)
+![image](https://github.com/user-attachments/assets/b1e07752-a467-49f6-8d10-8810cc827d5c)
