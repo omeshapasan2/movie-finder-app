@@ -3,29 +3,37 @@ import { useState, useEffect } from "react";
 import { searchMovies, getPopularMovies } from "../services/api"; 
 import "../css/Home.css"
 import SearchBar from "../components/SearchBar";
+import Filter from "../components/Filter";
 
 function Home() {
     const [searchQuery, setSearchQuery] = useState("");
     const [movies, setMovies] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true)
+    const [filters, setFilters] = useState({ genre: "", year: "", rating: "" });
+
+    const handleFilterChange = (key, value) => {
+        setFilters(prev => ({ ...prev, [key]: value }));
+    };
+
 
     useEffect(() => {
-        const loadPopularMovies = async () => {
+        const fetchMovies = async () => {
+            setLoading(true);
             try {
-                const popularMovies = await getPopularMovies()
-                setMovies(popularMovies)
-            }catch (err) {
-                console.log(err)
-                setError("Failed to load movies")
+                const filteredMovies = await getPopularMovies(filters);
+                setMovies(filteredMovies);
+                setError(null);
+            } catch (err) {
+                setError("Failed to load movies");
+            } finally {
+                setLoading(false);
             }
-            finally {
-                setLoading(false)
-            }
-        }
-
-        loadPopularMovies()
-    }, [])
+        };
+    
+        fetchMovies();
+    }, [filters]);
+      
 
     const handleSearch = async (e) => {
         e.preventDefault()
@@ -54,7 +62,7 @@ function Home() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onSubmit={handleSearch}
             />
-
+            <Filter filters={filters} onChange={handleFilterChange} />
             {error && <div className="error-message">{error}</div>}
         
             {loading ? (
