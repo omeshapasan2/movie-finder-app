@@ -1,70 +1,174 @@
-import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import '../css/MovieDetails.css';
 
 function MovieDetails() {
-  const { id } = useParams()
-  const [movie, setMovie] = useState(null)
-  const [cast, setCast] = useState([])
-  const [trailerKey, setTrailerKey] = useState(null)
+  const { id } = useParams();
+  const [movie, setMovie] = useState(null);
+  const [cast, setCast] = useState([]);
+  const [trailerKey, setTrailerKey] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const API_KEY = import.meta.env.VITE_TMDB_API_KEY
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       try {
         const [detailsRes, creditsRes, videosRes] = await Promise.all([
           axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`),
           axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}&language=en-US`),
           axios.get(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}&language=en-US`)
-        ])
+        ]);
 
-        setMovie(detailsRes.data)
-        setCast(creditsRes.data.cast.slice(0, 5)) // show top 5 cast
-        const trailer = videosRes.data.results.find(video => video.site === "YouTube" && video.type === "Trailer")
-        setTrailerKey(trailer?.key)
+        setMovie(detailsRes.data);
+        setCast(creditsRes.data.cast.slice(0, 6)); // show top 6 cast
+        const trailer = videosRes.data.results.find(video => video.site === "YouTube" && video.type === "Trailer");
+        setTrailerKey(trailer?.key);
       } catch (err) {
-        console.error("Error loading movie details", err)
+        console.error("Error loading movie details", err);
+      } finally {
+        setLoading(false);
       }
     }
 
-    fetchData()
-  }, [id])
+    fetchData();
+  }, [id, API_KEY]);
 
-  if (!movie) return <p>Loading...</p>
+  if (loading) {
+    return (
+      <div className="movie-details-container">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!movie) {
+    return (
+      <div className="movie-details-container">
+        <div className="movie-details-paper">
+          <h2>Movie not found</h2>
+          <Link to="/" className="back-button">Back to Movies</Link>
+        </div>
+      </div>
+    );
+  }
+
+  // Format date
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+  };
+
+  // Format runtime
+  const formatRuntime = (minutes) => {
+    if (!minutes) return 'N/A';
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m`;
+  };
 
   return (
-    <div className="movie-details">
-      <h1>{movie.title}</h1>
-      <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
+    <div className="movie-details-container">
+      <div className="movie-details-paper">
+        <div className="movie-details-header">
+          <h1 className="movie-title">{movie.title}</h1>
+          {movie.tagline && <p className="movie-tagline">"{movie.tagline}"</p>}
+        </div>
 
-      <p><strong>Overview:</strong> {movie.overview}</p>
-      <p><strong>Genres:</strong> {movie.genres.map(g => g.name).join(', ')}</p>
-      <p><strong>Release Date:</strong> {movie.release_date}</p>
-      <p><strong>Rating:</strong> {movie.vote_average}</p>
+        <div className="movie-content">
+          <div className="movie-poster">
+            {movie.poster_path ? (
+              <img 
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
+                alt={`${movie.title} poster`}
+              />
+            ) : (
+              <div className="no-poster">No poster available</div>
+            )}
+            <div className="movie-rating">{movie.vote_average.toFixed(1)}</div>
+          </div>
 
-      <h3>Cast</h3>
-      <ul>
-        {cast.map(actor => (
-          <li key={actor.cast_id}>{actor.name} as {actor.character}</li>
-        ))}
-      </ul>
+          <div className="movie-info">
+            <div className="info-section">
+              <h3 className="section-title">Overview</h3>
+              <p className="movie-overview">{movie.overview || 'No overview available.'}</p>
+            </div>
 
-      {trailerKey && (
-        <>
-          <h3>Trailer</h3>
-          <iframe
-            width="560"
-            height="315"
-            src={`https://www.youtube.com/embed/${trailerKey}`}
-            title="YouTube video player"
-            frameBorder="0"
-            allowFullScreen
-          ></iframe>
-        </>
-      )}
+            <div className="info-section">
+              <h3 className="section-title">Details</h3>
+              <div className="movie-meta">
+                <span className="meta-item">
+                  <strong>Release:</strong> {formatDate(movie.release_date)}
+                </span>
+                <span className="meta-item">
+                  <strong>Runtime:</strong> {formatRuntime(movie.runtime)}
+                </span>
+                {movie.budget > 0 && (
+                  <span className="meta-item">
+                    <strong>Budget:</strong> ${movie.budget.toLocaleString()}
+                  </span>
+                )}
+                {movie.revenue > 0 && (
+                  <span className="meta-item">
+                    <strong>Revenue:</strong> ${movie.revenue.toLocaleString()}
+                  </span>
+                )}
+              </div>
+
+              <h3 className="section-title">Genres</h3>
+              <div className="genres">
+                {movie.genres.map(genre => (
+                  <span key={genre.id} className="genre-tag">
+                    {genre.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="info-section">
+              <h3 className="section-title">Cast</h3>
+              {cast.length > 0 ? (
+                <ul className="cast-list">
+                  {cast.map(actor => (
+                    <li key={actor.cast_id} className="cast-item">
+                      <div className="cast-name">{actor.name}</div>
+                      <div className="cast-character">as {actor.character}</div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No cast information available.</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {trailerKey && (
+          <div className="trailer-container">
+            <h3 className="section-title">Trailer</h3>
+            <div className="trailer-wrapper">
+              <iframe
+                src={`https://www.youtube.com/embed/${trailerKey}`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        )}
+
+        <Link to="/" className="back-button">
+          <span>← Back to Movies</span>
+        </Link>
+      </div>
     </div>
-  )
+  );
 }
 
-export default MovieDetails
+export default MovieDetails;

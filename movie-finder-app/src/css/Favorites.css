@@ -33,6 +33,13 @@
   line-height: 1.6;
 }
 
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive cards */
+  gap: 2rem;
+  width: 100%;
+}
+
 
 /* Animation for new favorites being added */
 @keyframes fadeIn {
