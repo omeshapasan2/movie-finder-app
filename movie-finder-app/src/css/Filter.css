@@ -1,15 +1,25 @@
+/* Filter Component Styles */
 .filter-container {
     background-color: #1e1e1e;
     padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     color: #e0e0e0;
+    width: 100%;
     max-width: 800px;
     margin: 0 auto;
+    transition: all 0.3s ease;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
 }
 
 .filter-group {
-    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .filter-group label {
@@ -17,17 +27,25 @@
     margin-bottom: 0.5rem;
     font-weight: 500;
     color: #b0b0b0;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
 }
 
 .filter-group select,
 .filter-group input[type="number"] {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.75rem;
     background-color: #2d2d2d;
     border: 1px solid #444;
-    border-radius: 4px;
+    border-radius: 6px;
     color: #e0e0e0;
     font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.filter-group select:hover,
+.filter-group input[type="number"]:hover {
+    border-color: #646cff;
 }
 
 .filter-group select:focus,
@@ -37,19 +55,70 @@
     box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
 }
 
-.rating-input {
+/* Number input spinner styles */
+.filter-group input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+    position: relative;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.filter-group input[type="number"]::-webkit-inner-spin-button,
+.filter-group input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    background: none;
+}
+
+/* Custom spinner buttons */
+.filter-group .number-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.filter-group .spinner-buttons {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.filter-group .spinner-button {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    background-color: #444;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e0e0e0;
+    font-size: 12px;
+    user-select: none;
+    transition: background-color 0.2s ease;
+}
+
+.filter-group .spinner-button:hover {
+    background-color: #646cff;
+}
+
+/* Rating Filter Specific Styles */
+.rating-group {
     position: relative;
 }
 
 .rating-control {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
 }
 
 .rating-slider-container {
     position: relative;
     padding: 1rem 0;
+    margin-top: 0.5rem;
 }
 
 .slider-labels {
@@ -62,49 +131,61 @@
 
 .modern-slider {
     -webkit-appearance: none;
+    appearance: none;
     width: 100%;
     height: 6px;
-    border-radius: 3px;
+    border-radius: 6px;
     background: linear-gradient(to right, #646cff 0%, #646cff var(--slider-fill-percent), #444 var(--slider-fill-percent), #444 100%);
     outline: none;
     margin: 10px 0;
+    cursor: pointer;
 }
 
 .modern-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: #646cff;
     cursor: pointer;
     border: 2px solid #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .modern-slider::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: #646cff;
     cursor: pointer;
     border: 2px solid #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modern-slider::-webkit-slider-thumb:hover,
+.modern-slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
 }
 
 .slider-value-tooltip {
     position: absolute;
-    top: -10px;
-    left: var(--slider-fill-percent);
-    transform: translateX(-50%) translateY(-100%);
+    top: -8px;
+    transform: translateX(-50%);
     background-color: #646cff;
     color: white;
     padding: 0.25rem 0.5rem;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 0.8rem;
     font-weight: bold;
     white-space: nowrap;
     pointer-events: none;
+    z-index: 5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.2s ease;
 }
 
 .slider-value-tooltip::after {
@@ -118,11 +199,76 @@
     border-color: #646cff transparent transparent transparent;
 }
 
-.filter-group input[type="checkbox"] {
-    margin-right: 0.5rem;
-    accent-color: #646cff;
+/* Checkbox styles */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
 }
 
-.filter-group label > input[type="checkbox"] {
-    vertical-align: middle;
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.filter-group input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #444;
+    border-radius: 4px;
+    margin-right: 0.75rem;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    background-color: #2d2d2d;
+}
+
+.filter-group input[type="checkbox"]:checked {
+    background-color: #646cff;
+    border-color: #646cff;
+}
+
+.filter-group input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 0.8rem;
+}
+
+.filter-group input[type="checkbox"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
+}
+
+.checkbox-label span {
+    font-size: 0.9rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .filter-container {
+        padding: 1rem;
+    }
+    
+    .filter-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .filter-group {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (hover: hover) {
+    .filter-group label:hover {
+        color: #646cff;
+    }
 }
