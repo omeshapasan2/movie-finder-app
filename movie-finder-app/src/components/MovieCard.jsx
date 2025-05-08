@@ -1,5 +1,7 @@
 import "../css/MovieCard.css"
 import { useMovieContext } from "../contexts/MovieContext"
+import { auth } from "../services/firebase"
+import { toast } from "react-toastify"
 
 function MovieCard({movie}) {
     const {isFavourite, addToFavourites, removeFromFavourites} = useMovieContext()
@@ -7,6 +9,12 @@ function MovieCard({movie}) {
 
     function onFavouriteClick(e){
         e.preventDefault()
+
+        if (!auth.currentUser) {
+            toast.error("You need to be logged in to add movies to your favourites")
+            return
+        }
+
         if (favourite) removeFromFavourites(movie.id)
         else addToFavourites(movie)
     }
