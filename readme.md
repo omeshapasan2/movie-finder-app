@@ -13,8 +13,8 @@ A simple React-based movie search and favorites app using the [TMDb API](https:/
 - 📈 **Popular Movies** auto-loaded on homepage
 - ❤️ **Favorites Management** (add/remove)
 - 🤖 **Responsive UI** with modern styling
-- 🧭 **Routing** with React Router (`Home`, `Favourites`)
 - 🎨 **Custom UI Controls** (with icon buttons)
+- 🎯 **Filter** movies by Genre,Year and Rating
 
 ---
 
