@@ -1,4 +1,4 @@
-const API_KEY = "ec8607934b7a5a82c08438f6e9968be9"
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY
 const BASE_URL = "https://api.themoviedb.org/3"
 
 export const getPopularMovies = async () => {

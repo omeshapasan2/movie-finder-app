@@ -11,29 +11,131 @@ import {
   Avatar,
   Checkbox,
   FormControlLabel,
-  Paper
+  Paper,
+  InputAdornment,
+  IconButton,
+  Divider,
+  useMediaQuery
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { 
+  Email, 
+  Person, 
+  Lock, 
+  Visibility, 
+  VisibilityOff, 
+  CheckCircleOutline 
+} from '@mui/icons-material';
+import { createTheme, ThemeProvider, alpha } from '@mui/material/styles';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../services/firebase';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-const darkTheme = createTheme({
+const theme = createTheme({
   palette: {
     mode: 'dark',
     background: {
-      default: '#242424',
-      paper: '#424242',
+      default: '#121212',
+      paper: '#1E1E1E',
     },
     primary: {
-      main: '#90caf9',
+      main: '#ff4d4d',
     },
     secondary: {
-      main: '#f48fb1',
+      main: '#f9cb28',
     },
+    text: {
+      primary: '#FFFFFF',
+      secondary: '#B0B0B0',
+    }
   },
+  typography: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    h4: {
+      fontWeight: 700,
+    },
+    button: {
+      fontWeight: 600,
+      textTransform: 'none',
+    }
+  },
+  shape: {
+    borderRadius: 8
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 6,
+          padding: '10px 16px',
+          boxShadow: 'none',
+          '&:hover': {
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+          },
+        },
+        containedPrimary: {
+          background: 'linear-gradient(45deg, #ff4d4d, #f9cb28)',
+          '&:hover': {
+            background: 'linear-gradient(45deg, #ff3333, #f9c000)',
+          }
+        }
+      }
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiOutlinedInput-root': {
+            borderRadius: 6,
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: alpha('#ff4d4d', 0.5),
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ff4d4d',
+              borderWidth: 2,
+            }
+          }
+        }
+      }
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage: 'none',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25)',
+        }
+      }
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          background: 'linear-gradient(45deg, #ff4d4d, #f9cb28)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+        }
+      }
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          color: alpha('#ffffff', 0.7),
+          '&.Mui-checked': {
+            color: '#ff4d4d',
+          }
+        }
+      }
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          textDecoration: 'none',
+          fontWeight: 500,
+          '&:hover': {
+            textDecoration: 'underline',
+          }
+        }
+      }
+    }
+  }
 });
 
 export default function Register() {
@@ -55,52 +157,97 @@ export default function Register() {
     acceptTerms: false
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+    
+    // Clear error when typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: false
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     const newErrors = {
-      firstName: formData.firstName === '',
-      lastName: formData.lastName === '',
-      email: formData.email === '',
-      password: formData.password === '',
+      firstName: formData.firstName.trim() === '',
+      lastName: formData.lastName.trim() === '',
+      email: formData.email.trim() === '' || !formData.email.includes('@'),
+      password: formData.password.trim() === '' || formData.password.length < 6,
       confirmPassword: formData.confirmPassword !== formData.password,
       acceptTerms: !formData.acceptTerms
     };
     
     setErrors(newErrors);
     
-    //Firebase function to register the user
-    if(!Object.values(newErrors).some(error => error)){
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-            console.log('User registered:', userCredential.user);
-            // Toast success message
-            toast.success("Registration successful!");
-        } catch (error) {
-            console.error('Registration error:', error.message);
-            // Toast error message
-            toast.error("Registration failed. Please check your credentials.");
-        }
+    if (!Object.values(newErrors).some(error => error)) {
+      setIsLoading(true);
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth, 
+          formData.email, 
+          formData.password
+        );
+        console.log('User registered:', userCredential.user);
+        toast.success("Registration successful! Welcome to HyperMovies!");
+        navigate('/');
+      } catch (error) {
+        console.error('Registration error:', error.message);
+        toast.error(error.message || "Registration failed. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
+  const getPasswordHelperText = () => {
+    if (errors.password) {
+      if (formData.password.trim() === '') {
+        return 'Password is required';
+      }
+      return 'Password should be at least 6 characters';
+    }
+    return '';
+  };
+
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container component="main" maxWidth="xs" sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
-        <Paper elevation={6} sx={{ 
-          p: 4, 
-          width: '100%',
-          borderRadius: 2,
-        }}>
+      <Container 
+        component="main" 
+        maxWidth="sm" 
+        sx={{ 
+          minHeight: 'calc(100vh - 64px)', 
+          display: 'flex', 
+          alignItems: 'center',
+          justifyContent: 'center',
+          py: 4
+        }}
+      >
+        <Paper 
+          elevation={6} 
+          sx={{ 
+            p: { xs: 3, sm: 4 }, 
+            width: '100%',
+            borderRadius: 2,
+            backdropFilter: 'blur(10px)',
+            background: alpha(theme.palette.background.paper, 0.95),
+            border: `1px solid ${alpha('#ffffff', 0.05)}`,
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
@@ -108,15 +255,21 @@ export default function Register() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
+            <Avatar sx={{ width: 56, height: 56, mb: 2 }}>
+              <LockOutlinedIcon fontSize="large" />
             </Avatar>
-            <Typography component="h1" variant="h5" color="textPrimary">
-              Sign up
+            
+            <Typography component="h1" variant="h4" gutterBottom>
+              Create Account
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
+            
+            <Typography variant="body2" color="textSecondary" align="center" sx={{ mb: 3 }}>
+              Join HyperMovies to track and discover your favorite films
+            </Typography>
+            
+            <Box component="form" noValidate onSubmit={handleSubmit}>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid item width={'100%'}>
                   <TextField
                     autoComplete="given-name"
                     name="firstName"
@@ -129,10 +282,16 @@ export default function Register() {
                     onChange={handleChange}
                     error={errors.firstName}
                     helperText={errors.firstName && 'First name is required'}
-                    sx={{ background: '#424242', borderRadius: 1 }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Person sx={{ color: theme.palette.text.secondary }} />
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item width={'100%'}>
                   <TextField
                     required
                     fullWidth
@@ -144,10 +303,16 @@ export default function Register() {
                     onChange={handleChange}
                     error={errors.lastName}
                     helperText={errors.lastName && 'Last name is required'}
-                    sx={{ background: '#424242', borderRadius: 1 }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Person sx={{ color: theme.palette.text.secondary }} />
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item width={'100%'}>
                   <TextField
                     required
                     fullWidth
@@ -158,42 +323,82 @@ export default function Register() {
                     value={formData.email}
                     onChange={handleChange}
                     error={errors.email}
-                    helperText={errors.email && 'Email is required'}
-                    sx={{ background: '#424242', borderRadius: 1 }}
+                    helperText={errors.email && 'Please enter a valid email address'}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Email sx={{ color: theme.palette.text.secondary }} />
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item width={'100%'}>
                   <TextField
                     required
                     fullWidth
                     name="password"
                     label="Password"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     id="password"
                     autoComplete="new-password"
                     value={formData.password}
                     onChange={handleChange}
                     error={errors.password}
-                    helperText={errors.password && 'Password is required'}
-                    sx={{ background: '#424242', borderRadius: 1 }}
+                    helperText={getPasswordHelperText()}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Lock sx={{ color: theme.palette.text.secondary }} />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() => setShowPassword(show => !show)}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item width={'100%'}>
                   <TextField
                     required
                     fullWidth
                     name="confirmPassword"
                     label="Confirm Password"
-                    type="password"
+                    type={showConfirmPassword ? 'text' : 'password'}
                     id="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     error={errors.confirmPassword}
                     helperText={errors.confirmPassword && 'Passwords must match'}
-                    sx={{ background: '#424242', borderRadius: 1 }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Lock sx={{ color: theme.palette.text.secondary }} />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle confirm password visibility"
+                            onClick={() => setShowConfirmPassword(show => !show)}
+                            edge="end"
+                          >
+                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item width={'100%'}>
                   <FormControlLabel
                     control={
                       <Checkbox 
@@ -201,32 +406,62 @@ export default function Register() {
                         color="primary" 
                         checked={formData.acceptTerms}
                         onChange={handleChange}
+                        icon={<CheckCircleOutline />}
+                        checkedIcon={<CheckCircleOutline />}
                       />
                     }
-                    label="I accept the terms and conditions"
+                    label={
+                      <Typography variant="body2">
+                        I agree to the{' '}
+                        <Link href="#" color="secondary">
+                          Terms of Service
+                        </Link>
+                        {' '}and{' '}
+                        <Link href="#" color="secondary">
+                          Privacy Policy
+                        </Link>
+                      </Typography>
+                    }
                   />
                   {errors.acceptTerms && (
-                    <Typography color="error" variant="body2">
+                    <Typography color="error" variant="body2" sx={{ mt: 0.5, ml: 2 }}>
                       You must accept the terms and conditions
                     </Typography>
                   )}
                 </Grid>
               </Grid>
+              
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                color="primary"
+                size="large"
+                disabled={isLoading}
+                sx={{ 
+                  mt: 3, 
+                  mb: 2,
+                  py: 1.5,
+                  fontSize: '1rem'
+                }}
               >
-                Sign Up
+                {isLoading ? 'Creating Account...' : 'Create Account'}
               </Button>
-              <Grid container justifyContent="flex-end">
-                <Grid item>
-                  <Link href="/login" variant="body2" color="secondary">
-                    Already have an account? Sign in
-                  </Link>
-                </Grid>
-              </Grid>
+              
+              <Divider sx={{ my: 2 }}>
+                <Typography variant="body2" color="textSecondary">
+                  OR
+                </Typography>
+              </Divider>
+              
+              <Box sx={{ textAlign: 'center', mt: 1 }}>
+                <Typography variant="body2" color="textSecondary" display="inline">
+                  Already have an account?{' '}
+                </Typography>
+                <Link href="/login" variant="body2" color="secondary">
+                  Sign In
+                </Link>
+              </Box>
             </Box>
           </Box>
         </Paper>
