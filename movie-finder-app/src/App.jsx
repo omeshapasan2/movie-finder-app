@@ -10,23 +10,26 @@ import Register from './pages/Register';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import MovieDetails from './pages/MovieDetails';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
 
   return (
-    <MovieProvider>
-      <NavBar />
-      <main className="main-content">
-        <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/login" element={<Login />}/>
-          <Route path="/register" element={<Register />}/>
-          <Route path="/favourites" element={<Favourites />}/>
-          <Route path="/movie/:id" element={<MovieDetails />} />
-        </Routes>
-      </main>
-      <ToastContainer position="top-right" autoClose={3000} />
-    </MovieProvider>
+    <ThemeProvider>
+      <MovieProvider>
+        <NavBar />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />}/>
+            <Route path="/login" element={<Login />}/>
+            <Route path="/register" element={<Register />}/>
+            <Route path="/favourites" element={<Favourites />}/>
+            <Route path="/movie/:id" element={<MovieDetails />} />
+          </Routes>
+        </main>
+        <ToastContainer position="top-right" autoClose={3000} />
+      </MovieProvider>
+    </ThemeProvider>
   )
   
 }

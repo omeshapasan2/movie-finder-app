@@ -4,12 +4,15 @@ import { FaSignOutAlt, FaBars, FaTimes } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import { useState, useEffect } from "react";
 import { auth } from "../services/firebase";
+import ThemeToggle from "./ThemeToggle";
+import { useTheme } from "../contexts/ThemeContext";
 
 function NavBar() {
     const [user, setUser] = useState(null);
     const [menuOpen, setMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const location = useLocation();
+    const { darkMode } = useTheme();
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(setUser);
@@ -50,7 +53,7 @@ function NavBar() {
     }
 
     return (
-        <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+        <nav className={`navbar ${scrolled ? 'scrolled' : ''} ${darkMode ? 'dark' : 'light'}`}>
             <div className="navbar-brand">
                 <Link to="/">HyperMovies</Link>
             </div>
@@ -62,6 +65,7 @@ function NavBar() {
             <div className={`navbar-links ${menuOpen ? 'open' : ''}`}>
                 <Link to="/" className={isActive('/')}>Home</Link>
                 <Link to="/favourites" className={isActive('/favourites')}>Favourites</Link>
+                <ThemeToggle />
                 
                 {!user ? (
                     <>
