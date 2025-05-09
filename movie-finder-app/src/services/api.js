@@ -13,7 +13,13 @@ export const getPopularMovies = async (filters = {}) => {
 
     const response = await fetch(url);
     const data = await response.json();
-    return data.results;
+
+    // return data.results;
+
+    // Filter out adult movies
+    const filteredMovies = data.results.filter(movie => !movie.adult);
+
+    return filteredMovies;
 };
 
 export const searchMovies = async (query) => {
