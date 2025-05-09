@@ -2,12 +2,13 @@ const API_KEY = import.meta.env.VITE_TMDB_API_KEY
 const BASE_URL = "https://api.themoviedb.org/3"
 
 export const getPopularMovies = async (filters = {}) => {
-    const { genre, year, rating } = filters;
+    const { genre, yearStart, yearEnd, rating } = filters;
 
     let url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&sort_by=popularity.desc`;
 
     if (genre) url += `&with_genres=${genre}`;
-    if (year) url += `&primary_release_year=${year}`;
+    if (yearStart) url += `&primary_release_date.gte=${yearStart}-01-01`;
+    if (yearEnd) url += `&primary_release_date.lte=${yearEnd}-12-31`;
     if (rating) url += `&vote_average.gte=${rating}`;
 
     const response = await fetch(url);

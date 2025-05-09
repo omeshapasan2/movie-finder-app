@@ -10,7 +10,7 @@ function Home() {
     const [movies, setMovies] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true)
-    const [filters, setFilters] = useState({ genre: "", year: "", rating: "" });
+    const [filters, setFilters] = useState({ genre: "", yearStart: "", yearEnd: "", rating: "" });
 
     const handleFilterChange = (key, value) => {
         setFilters(prev => ({ ...prev, [key]: value }));

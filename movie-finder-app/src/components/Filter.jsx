@@ -100,41 +100,29 @@ function Filter({ filters, onChange }) {
           </select>
         </div>
 
-        {/* Year Filter */}
+        {/* Year Range Filter */}
         <div className="filter-group">
-          <label htmlFor="year">Year</label>
+          <label htmlFor="yearStart">Year Range</label>
           <div className="number-input-wrapper">
             <input
-              id="year"
+              id="yearStart"
               type="number"
-              placeholder="Release Year"
-              value={filters.year || ""}
-              onChange={(e) => onChange("year", e.target.value)}
+              placeholder="From"
+              value={filters.yearStart || ""}
+              onChange={(e) => onChange("yearStart", e.target.value)}
               min="1900"
               max={new Date().getFullYear()}
             />
-            <div className="spinner-buttons">
-              <div 
-                className="spinner-button" 
-                onClick={() => {
-                  const currentValue = parseInt(filters.year || 0);
-                  const newValue = Math.min((currentValue || 1900) + 1, new Date().getFullYear());
-                  onChange("year", newValue.toString());
-                }}
-              >
-                ▲
-              </div>
-              <div 
-                className="spinner-button" 
-                onClick={() => {
-                  const currentValue = parseInt(filters.year || 0);
-                  const newValue = Math.max((currentValue || new Date().getFullYear()) - 1, 1900);
-                  onChange("year", newValue.toString());
-                }}
-              >
-                ▼
-              </div>
-            </div>
+            <span style={{ margin: '0 8px' }}>to</span>
+            <input
+              id="yearEnd"
+              type="number"
+              placeholder="To"
+              value={filters.yearEnd || ""}
+              onChange={(e) => onChange("yearEnd", e.target.value)}
+              min="1900"
+              max={new Date().getFullYear()}
+            />
           </div>
         </div>
 
@@ -213,17 +201,7 @@ function Filter({ filters, onChange }) {
           </div>
         </div>
 
-        {/* Adult Content Checkbox */}
-        <div className="filter-group checkbox-group">
-          <label className="checkbox-label">
-            <input
-              type="checkbox"
-              checked={filters.includeAdult || false}
-              onChange={(e) => onChange("includeAdult", e.target.checked)}
-            />
-            <span>Include Adult Content</span>
-          </label>
-        </div>
+        
       </div>
     </div>
   );
