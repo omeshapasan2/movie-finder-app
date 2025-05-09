@@ -1,46 +1,46 @@
 .theme-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle.dark {
+  color: #f9cb28;
+  background-color: rgba(249, 203, 40, 0.1);
+}
+
+.theme-toggle.light {
+  color: #000000;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px);
+}
+
+.theme-toggle.dark:hover {
+  background-color: rgba(249, 203, 40, 0.2);
+}
+
+.theme-toggle.light:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .toggle-text {
+    display: none;
   }
   
-  .theme-toggle.dark {
-    color: #f9cb28;
-    background-color: rgba(249, 203, 40, 0.1);
+  .theme-toggle {
+    padding: 8px;
   }
-  
-  .theme-toggle.light {
-    color: #666;
-    background-color: rgba(0, 0, 0, 0.05);
-  }
-  
-  .theme-toggle:hover {
-    transform: translateY(-2px);
-  }
-  
-  .theme-toggle.dark:hover {
-    background-color: rgba(249, 203, 40, 0.2);
-  }
-  
-  .theme-toggle.light:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-  
-  @media (max-width: 768px) {
-    .toggle-text {
-      display: none;
-    }
-    
-    .theme-toggle {
-      padding: 8px;
-    }
-  }
+}

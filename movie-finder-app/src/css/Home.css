@@ -2,6 +2,7 @@
   padding: 2rem 0;
   width: 100%;
   box-sizing: border-box;
+  background-color: #242424;
 }
 
 .search-form {
@@ -60,4 +61,28 @@
   padding: 1rem;
   width: 100%;
   box-sizing: border-box;
+}
+
+.home.light {
+  background-color: #f9f9f9;
+  color: #222;
+}
+
+.home.light .search-input {
+  background-color: #ffffff;
+  color: #222;
+  border: 1px solid #ccc;
+}
+
+.home.light .search-input:focus {
+  box-shadow: 0 0 0 2px #999;
+}
+
+.home.light .search-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.home.light .search-button:hover {
+  background-color: #0056b3;
 }

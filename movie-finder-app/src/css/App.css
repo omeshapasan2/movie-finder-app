@@ -10,3 +10,13 @@
   display: flex;
   flex-direction: column;
 }
+
+:root.dark {
+  color: #ffffff;
+  background-color: #000000;
+}
+
+:root.light {
+  color: #000000;
+  background-color: #ffffff;
+}

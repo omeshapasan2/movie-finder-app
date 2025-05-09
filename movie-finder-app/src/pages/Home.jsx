@@ -4,6 +4,7 @@ import { searchMovies, getPopularMovies } from "../services/api";
 import "../css/Home.css"
 import SearchBar from "../components/SearchBar";
 import Filter from "../components/Filter";
+import { useTheme } from '../contexts/ThemeContext';
 
 function Home() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -11,6 +12,7 @@ function Home() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true)
     const [filters, setFilters] = useState({ genre: "", yearStart: "", yearEnd: "", rating: "" });
+    const { darkMode } = useTheme();
 
     const handleFilterChange = (key, value) => {
         setFilters(prev => ({ ...prev, [key]: value }));
@@ -56,7 +58,7 @@ function Home() {
     };
 
     return (
-        <div className="home">
+        <div className={`home ${darkMode ? 'dark' : 'light'}`}>
             <SearchBar 
                 value = {searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}

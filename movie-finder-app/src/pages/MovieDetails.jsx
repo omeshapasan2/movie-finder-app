@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../css/MovieDetails.css';
+import { useTheme } from '../contexts/ThemeContext';
 
 function MovieDetails() {
   const { id } = useParams();
@@ -9,6 +10,7 @@ function MovieDetails() {
   const [cast, setCast] = useState([]);
   const [trailerKey, setTrailerKey] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { darkMode } = useTheme();
 
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -38,7 +40,7 @@ function MovieDetails() {
 
   if (loading) {
     return (
-      <div className="movie-details-container">
+      <div className={`movie-details-container ${darkMode ? 'dark' : 'light'}`}>
         <div className="loading-container">
           <div className="loading-spinner"></div>
         </div>
@@ -48,7 +50,7 @@ function MovieDetails() {
 
   if (!movie) {
     return (
-      <div className="movie-details-container">
+      <div className={`movie-details-container ${darkMode ? 'dark' : 'light'}`}>
         <div className="movie-details-paper">
           <h2>Movie not found</h2>
           <Link to="/" className="back-button">Back to Movies</Link>
@@ -73,7 +75,7 @@ function MovieDetails() {
   };
 
   return (
-    <div className="movie-details-container">
+    <div className={`movie-details-container ${darkMode ? 'dark' : 'light'}`}>
       <div className="movie-details-paper">
         <div className="movie-details-header">
           <h1 className="movie-title">{movie.title}</h1>

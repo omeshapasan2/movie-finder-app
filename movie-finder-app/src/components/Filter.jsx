@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import "../css/Filter.css";
+import { useTheme } from '../contexts/ThemeContext';
 
 function Filter({ filters, onChange }) {
   const [ratingValue, setRatingValue] = useState(filters.rating || "");
@@ -7,6 +8,7 @@ function Filter({ filters, onChange }) {
   const [showRatingValue, setShowRatingValue] = useState(false);
   const [sliderPosition, setSliderPosition] = useState(0);
   const [debounceTimer, setDebounceTimer] = useState(null);
+  const { darkMode } = useTheme();
 
   // Debounced onChange handler
   const debouncedOnChange = useCallback(
@@ -75,7 +77,7 @@ function Filter({ filters, onChange }) {
   };
 
   return (
-    <div className="filter-container">
+    <div className={`filter-container ${darkMode ? 'dark' : 'light'}`}>
       <div className="filter-grid">
         {/* Genre Filter */}
         <div className="filter-group">

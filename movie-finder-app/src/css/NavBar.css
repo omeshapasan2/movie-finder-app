@@ -170,3 +170,55 @@
     padding: 0.6rem;
   }
 }
+
+/* Light Mode Styles */
+.navbar.light {
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.navbar.light .navbar-brand {
+  background: linear-gradient(45deg, #ff4d4d, #f9cb28);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.navbar.light .nav-link {
+  color: #555555;
+}
+
+.navbar.light .nav-link:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #222222;
+}
+
+.navbar.light .nav-link.active {
+  background-color: rgba(0, 0, 0, 0.08);
+  color: #222222;
+}
+
+.navbar.light .logout-button {
+  background-color: rgba(255, 77, 77, 0.1);
+  color: #ff4d4d;
+}
+
+.navbar.light .logout-button:hover {
+  background-color: rgba(255, 77, 77, 0.2);
+}
+
+/* Mobile menu in light mode */
+@media (max-width: 768px) {
+  .navbar.light .navbar-links {
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar.light .menu-toggle {
+    color: #333333;
+  }
+}
+
+/* Scrolled state in light mode */
+.navbar.light.scrolled {
+  background-color: rgba(255, 255, 255, 0.95);
+}

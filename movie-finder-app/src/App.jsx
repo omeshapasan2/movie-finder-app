@@ -1,3 +1,4 @@
+// App.jsx
 import './css/App.css';
 import MovieCard from './components/MovieCard';
 import Home from './pages/Home';
@@ -11,27 +12,39 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import MovieDetails from './pages/MovieDetails';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { useTheme } from './contexts/ThemeContext';
+import { useEffect } from 'react';
 
 function App() {
-
   return (
     <ThemeProvider>
-      <MovieProvider>
-        <NavBar />
-        <main className="main-content">
-          <Routes>
-            <Route path="/" element={<Home />}/>
-            <Route path="/login" element={<Login />}/>
-            <Route path="/register" element={<Register />}/>
-            <Route path="/favourites" element={<Favourites />}/>
-            <Route path="/movie/:id" element={<MovieDetails />} />
-          </Routes>
-        </main>
-        <ToastContainer position="top-right" autoClose={3000} />
-      </MovieProvider>
+      <ThemedApp />
     </ThemeProvider>
-  )
-  
+  );
 }
 
-export default App
+function ThemedApp() {
+  const { darkMode } = useTheme();
+
+  useEffect(() => {
+    document.body.className = darkMode ? 'dark-theme' : 'light-theme';
+  }, [darkMode]);
+
+  return (
+    <MovieProvider>
+      <NavBar />
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/favourites" element={<Favourites />} />
+          <Route path="/movie/:id" element={<MovieDetails />} />
+        </Routes>
+      </main>
+      <ToastContainer position="top-right" autoClose={3000} />
+    </MovieProvider>
+  );
+}
+
+export default App;

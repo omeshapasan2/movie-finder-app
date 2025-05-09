@@ -4,10 +4,12 @@ import { auth } from "../services/firebase"
 import { toast } from "react-toastify"
 import { Link } from "react-router-dom"
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md"
+import { useTheme } from '../contexts/ThemeContext';
 
 function MovieCard({movie}) {
     const {isFavourite, addToFavourites, removeFromFavourites} = useMovieContext()
-    const favourite = isFavourite(movie.id)
+    const favourite = isFavourite(movie.id);
+    const { darkMode } = useTheme();
 
     function onFavouriteClick(e){
         e.preventDefault()
@@ -23,7 +25,7 @@ function MovieCard({movie}) {
 
     return (
         <Link to={`/movie/${movie.id}`} className="movie-card-link">
-            <div className="movie-card">
+            <div className={`movie-card ${darkMode ? 'dark' : 'light'}`}>
                 <div className="movie-poster">
                     <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title}/>
                     <div className="movie-overlay">

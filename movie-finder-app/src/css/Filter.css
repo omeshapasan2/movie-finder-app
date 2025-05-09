@@ -272,3 +272,86 @@
         color: #646cff;
     }
 }
+
+/* Light Mode Styles */
+.filter-container.light {
+    background-color: #ffffff;
+    color: #333333;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.filter-container.light .filter-group label {
+    color: #555555;
+}
+
+.filter-container.light .filter-group select,
+.filter-container.light .filter-group input[type="number"] {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    color: #333333;
+}
+
+.filter-container.light .filter-group select:hover,
+.filter-container.light .filter-group input[type="number"]:hover {
+    border-color: #4a54e1;
+}
+
+.filter-container.light .filter-group select:focus,
+.filter-container.light .filter-group input[type="number"]:focus {
+    border-color: #4a54e1;
+    box-shadow: 0 0 0 2px rgba(74, 84, 225, 0.2);
+}
+
+.filter-container.light .filter-group .spinner-button {
+    background-color: #ddd;
+    color: #333333;
+}
+
+.filter-container.light .filter-group .spinner-button:hover {
+    background-color: #4a54e1;
+    color: white;
+}
+
+.filter-container.light .modern-slider {
+    background: linear-gradient(to right, #4a54e1 0%, #4a54e1 var(--slider-fill-percent), #ddd var(--slider-fill-percent), #ddd 100%);
+}
+
+.filter-container.light .modern-slider::-webkit-slider-thumb {
+    background: #4a54e1;
+    border: 2px solid #f5f5f5;
+}
+
+.filter-container.light .modern-slider::-moz-range-thumb {
+    background: #4a54e1;
+    border: 2px solid #f5f5f5;
+}
+
+.filter-container.light .slider-labels {
+    color: #777;
+}
+
+.filter-container.light .slider-value-tooltip {
+    background-color: #4a54e1;
+    color: white;
+}
+
+.filter-container.light .slider-value-tooltip::after {
+    border-color: #4a54e1 transparent transparent transparent;
+}
+
+.filter-container.light .filter-group input[type="checkbox"] {
+    border: 2px solid #ddd;
+    background-color: #f5f5f5;
+}
+
+.filter-container.light .filter-group input[type="checkbox"]:checked {
+    background-color: #4a54e1;
+    border-color: #4a54e1;
+}
+
+/* Hover effects for light mode */
+@media (hover: hover) {
+    .filter-container.light .filter-group label:hover {
+        color: #4a54e1;
+    }
+}
