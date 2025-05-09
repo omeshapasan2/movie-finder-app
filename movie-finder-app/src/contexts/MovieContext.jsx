@@ -10,6 +10,43 @@ export const MovieProvider = ({ children }) => {
   const [favourites, setFavourites] = useState([]);
   const [user, setUser] = useState(null);
 
+  // Local Storage
+  // 1. Load from localStorage initially
+  useEffect(() => {
+    const storedFavourites = localStorage.getItem("favourites");
+    if (storedFavourites) {
+      setFavourites(JSON.parse(storedFavourites));
+    }
+  }, []);
+
+  // 2. Save to localStorage whenever favourites change
+  useEffect(() => {
+    localStorage.setItem("favourites", JSON.stringify(favourites));
+  }, [favourites]);
+
+  // 3. Sync with Firestore on auth state change
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setUser(user);
+      if (user) {
+        const favRef = doc(db, "favourites", user.uid);
+        const snapshot = await getDoc(favRef);
+        if (snapshot.exists()) {
+          setFavourites(snapshot.data().movies || []);
+        } else {
+          setFavourites([]);
+          await setDoc(favRef, { movies: [] });
+        }
+      } else {
+        setFavourites([]);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+
+  // Firestore 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);

@@ -13,8 +13,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import MovieDetails from './pages/MovieDetails';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { useTheme } from './contexts/ThemeContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ForgotPassword from './pages/ForgotPassword';
+import PreLoader from './components/PreLoader';
 
 function App() {
   return (
@@ -26,10 +27,23 @@ function App() {
 
 function ThemedApp() {
   const { darkMode } = useTheme();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     document.body.className = darkMode ? 'dark-theme' : 'light-theme';
   }, [darkMode]);
+
+  if (loading) {
+    return <PreLoader />
+  }
 
   return (
     <MovieProvider>

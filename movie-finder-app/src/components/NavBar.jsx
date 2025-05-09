@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import "../css/NavBar.css";
-import { FaSignOutAlt, FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
+import { IoMdLogOut } from "react-icons/io";
 import { toast } from 'react-toastify';
 import { useState, useEffect } from "react";
 import { auth } from "../services/firebase";
@@ -74,7 +75,7 @@ function NavBar() {
                     </>
                 ) : (
                     <button className="nav-link logout-button" onClick={handleSignOut}>
-                        <FaSignOutAlt /> <span className="logout-text">Logout</span>
+                        <IoMdLogOut />
                     </button>
                 )}
             </div>
