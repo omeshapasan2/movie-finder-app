@@ -1,4 +1,8 @@
+// ThemeContext.js - Create this file if you don't have it yet
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { darkTheme, lightTheme } from '../pages/theme'; // Import your updated theme file
 
 // Create a context for theme management
 const ThemeContext = createContext();
@@ -14,7 +18,7 @@ export const ThemeProvider = ({ children }) => {
   // Update local storage when theme changes
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
-    // Update body class for global styling
+    // Update body class for global styling (for non-MUI components)
     if (darkMode) {
       document.body.classList.add('dark-mode');
       document.body.classList.remove('light-mode');
@@ -35,9 +39,15 @@ export const ThemeProvider = ({ children }) => {
     toggleTheme
   };
 
+  // Select the appropriate MUI theme based on darkMode state
+  const currentTheme = darkMode ? darkTheme : lightTheme;
+
   return (
     <ThemeContext.Provider value={value}>
-      {children}
+      <MuiThemeProvider theme={currentTheme}>
+        <CssBaseline /> {/* This resets the CSS and applies the theme's background */}
+        {children}
+      </MuiThemeProvider>
     </ThemeContext.Provider>
   );
 };
