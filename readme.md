@@ -15,6 +15,8 @@ A simple React-based movie search and favorites app using the [TMDb API](https:/
 - 🤖 **Responsive UI** with modern styling
 - 🎨 **Custom UI Controls** (with icon buttons)
 - 🎯 **Filter** movies by Genre,Year and Rating
+- 🖼️ **Cast & Crew Info** – Show detailed crew info and images
+- 🔄 **Cloud Sync** – Keep your favourites synced on all logged-in devices
 
 ---
 
@@ -24,7 +26,8 @@ A simple React-based movie search and favorites app using the [TMDb API](https:/
 - **React Router**
 - **CSS (custom styling)**
 - **TMDb API** for movie data
-- **Local Storage** for persisting favorites
+- **Firebase** for User Auth
+- **FireStore** for persisting favorites
 
 ---
 
@@ -82,7 +85,7 @@ src/
 ```
 
 🚀 Upcoming Features
-- 🔄 Cloud Sync – Keep your favourites synced on all logged-in devices
+
 - 🌓 Theme Toggle – Switch between dark and light mode
 - 📺 TV Series Support – Browse and favourite your favourite shows
 
