@@ -269,49 +269,7 @@ export default function Register() {
             
             <Box component="form" noValidate onSubmit={handleSubmit}>
               <Grid container spacing={2}>
-                <Grid item width={'100%'}>
-                  <TextField
-                    autoComplete="given-name"
-                    name="firstName"
-                    required
-                    fullWidth
-                    id="firstName"
-                    label="First Name"
-                    autoFocus
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    error={errors.firstName}
-                    helperText={errors.firstName && 'First name is required'}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Person sx={{ color: theme.palette.text.secondary }} />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Grid>
-                <Grid item width={'100%'}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="family-name"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    error={errors.lastName}
-                    helperText={errors.lastName && 'Last name is required'}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Person sx={{ color: theme.palette.text.secondary }} />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Grid>
+                
                 <Grid item width={'100%'}>
                   <TextField
                     required
@@ -413,11 +371,11 @@ export default function Register() {
                     label={
                       <Typography variant="body2">
                         I agree to the{' '}
-                        <Link href="#" color="secondary">
+                        <Link href="https://www.themoviedb.org/terms-of-use" color="secondary">
                           Terms of Service
                         </Link>
                         {' '}and{' '}
-                        <Link href="#" color="secondary">
+                        <Link href="https://www.themoviedb.org/privacy-policy" color="secondary">
                           Privacy Policy
                         </Link>
                       </Typography>

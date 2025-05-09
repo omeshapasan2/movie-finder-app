@@ -112,7 +112,7 @@ button:focus-visible {
 /* Media query for system preference fallback */
 @media (prefers-color-scheme: light) {
   :root:not(.dark):not(.light) {
-    --bg-color: #ffffff;
+    --bg-color: #f9f9f9;
     --text-color: #213547;
     --link-color: #1a0dab;
     --link-hover: #747bff;

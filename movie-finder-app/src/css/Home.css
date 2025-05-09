@@ -86,3 +86,83 @@
 .home.light .search-button:hover {
   background-color: #0056b3;
 }
+
+/* Add these styles to your Home.css file */
+
+.see-more-container {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.see-more-button {
+  padding: 12px 24px;
+  background-color: #e50914;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.see-more-button:hover {
+  background-color: #f40612;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.see-more-button:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.7;
+}
+
+/* Light theme styles */
+.home.light .see-more-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.home.light .see-more-button:hover {
+  background-color: #0056b3;
+}
+
+.home.light .see-more-button:disabled {
+  background-color: #ccc;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  color: #aaa;
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #aaa;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

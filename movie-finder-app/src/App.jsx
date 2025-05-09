@@ -14,6 +14,7 @@ import MovieDetails from './pages/MovieDetails';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { useTheme } from './contexts/ThemeContext';
 import { useEffect } from 'react';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function ThemedApp() {
           <Route path="/register" element={<Register />} />
           <Route path="/favourites" element={<Favourites />} />
           <Route path="/movie/:id" element={<MovieDetails />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </main>
       <ToastContainer position="top-right" autoClose={3000} />

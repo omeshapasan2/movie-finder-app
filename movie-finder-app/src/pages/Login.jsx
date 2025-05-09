@@ -16,107 +16,12 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material';
-import { createTheme, ThemeProvider, alpha } from '@mui/material/styles';
+import { ThemeProvider, alpha } from '@mui/material/styles';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../services/firebase';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    background: {
-      default: '#121212',
-      paper: '#1E1E1E',
-    },
-    primary: {
-      main: '#ff4d4d',
-    },
-    secondary: {
-      main: '#f9cb28',
-    },
-    text: {
-      primary: '#FFFFFF',
-      secondary: '#B0B0B0',
-    }
-  },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    h4: {
-      fontWeight: 700,
-    },
-    button: {
-      fontWeight: 600,
-      textTransform: 'none',
-    }
-  },
-  shape: {
-    borderRadius: 8
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 6,
-          padding: '10px 16px',
-          boxShadow: 'none',
-          '&:hover': {
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-          },
-        },
-        containedPrimary: {
-          background: 'linear-gradient(45deg, #ff4d4d, #f9cb28)',
-          '&:hover': {
-            background: 'linear-gradient(45deg, #ff3333, #f9c000)',
-          }
-        }
-      }
-    },
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          '& .MuiOutlinedInput-root': {
-            borderRadius: 6,
-            '&:hover .MuiOutlinedInput-notchedOutline': {
-              borderColor: alpha('#ff4d4d', 0.5),
-            },
-            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#ff4d4d',
-              borderWidth: 2,
-            }
-          }
-        }
-      }
-    },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          backgroundImage: 'none',
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25)',
-        }
-      }
-    },
-    MuiAvatar: {
-      styleOverrides: {
-        root: {
-          background: 'linear-gradient(45deg, #ff4d4d, #f9cb28)',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-        }
-      }
-    },
-    MuiLink: {
-      styleOverrides: {
-        root: {
-          textDecoration: 'none',
-          fontWeight: 500,
-          '&:hover': {
-            textDecoration: 'underline',
-          }
-        }
-      }
-    }
-  }
-});
+import {theme} from './theme.js';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -143,7 +48,7 @@ export default function Login() {
         navigate('/');
       } catch (error) {
         console.error('Login error:', error.message);
-        toast.error(error.message || "Login failed. Please check your credentials.");
+        toast.error("Login failed. Please check your credentials.");
       } finally {
         setIsLoading(false);
       }
@@ -152,6 +57,10 @@ export default function Login() {
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((show) => !show);
+  };
+
+  const handleForgotPassword = () => {
+    navigate('/forgot-password');
   };
 
   return (
@@ -257,7 +166,13 @@ export default function Login() {
               />
               
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-                <Link href="#" variant="body2" color="secondary">
+                <Link
+                  component="button"
+                  type="button" 
+                  variant="body2" 
+                  color="secondary"
+                  onClick={handleForgotPassword}
+                >
                   Forgot password?
                 </Link>
               </Box>

@@ -210,10 +210,139 @@
   }
 }
 
+.favourites-empty {
+  text-align: center;
+  padding: 50px 20px;
+  color: #555;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.favourites-empty h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #b8b1b1;
+}
+
+.favourites-empty p {
+  font-size: 1.1rem;
+  color: #777;
+}
+
+.favourites-empty {
+    text-align: center;
+    padding: 50px 20px;
+    color: #555;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.favourites-empty h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #838282;
+}
+
+.favourites-empty p {
+    font-size: 1.1rem;
+    color: #7f7e7e;
+}
+
 /* Light theme hover effects for interactive elements */
 @media (hover: hover) {
   .favorites h2:hover {
     color: #646cff;
     text-shadow: 2px 2px 12px rgba(100, 108, 255, 0.3);
   }
+}
+
+/* Light Mode Styles */
+.favorites.light {
+  color: #333333;
+  background-color: #f5f5f7;
+}
+
+.favorites.light h2 {
+  color: #333333;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.favorites.light h2:hover {
+  color: #4a54e1;
+  text-shadow: 2px 2px 12px rgba(74, 84, 225, 0.2);
+}
+
+.favorites.light .favorites-empty {
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.favorites.light .favorites-empty:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  border-color: rgba(74, 84, 225, 0.2);
+}
+
+.favorites.light .favorites-empty h3 {
+  color: #4a54e1;
+}
+
+.favorites.light .favorites-empty p {
+  color: #666666;
+}
+
+.favorites.light .movie-card {
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.favorites.light .movie-card:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  border-color: rgba(74, 84, 225, 0.3);
+}
+
+.favorites.light .movie-title {
+  color: #333333;
+}
+
+.favorites.light .movie-year {
+  color: #666666;
+}
+
+.favorites.light .rating-value {
+  color: #4a54e1;
+}
+
+.favorites.light .star-icon {
+  color: #ffc107; 
+}
+
+.favorites.light .view-button {
+  background-color: #f0f0f0;
+  color: #333333;
+}
+
+.favorites.light .view-button:hover {
+  background-color: #e0e0e0;
+}
+
+.favorites.light .remove-button {
+  background-color: rgba(220, 53, 69, 0.08);
+  color: #dc3545;
+}
+
+.favorites.light .remove-button:hover {
+  background-color: rgba(220, 53, 69, 0.15);
+}
+
+.favorites.light .favourites-empty {
+  color: #555555;
+  background-color: #ffffff;
+}
+
+.favorites.light .favourites-empty h2 {
+  color: #333333;
+}
+
+.favorites.light .favourites-empty p {
+  color: #666666;
 }
