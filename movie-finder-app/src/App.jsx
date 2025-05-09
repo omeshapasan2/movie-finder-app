@@ -16,6 +16,7 @@ import { useTheme } from './contexts/ThemeContext';
 import { useEffect, useState } from 'react';
 import ForgotPassword from './pages/ForgotPassword';
 import PreLoader from './components/PreLoader';
+import Trending from './pages/Trending';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function ThemedApp() {
           <Route path="/favourites" element={<Favourites />} />
           <Route path="/movie/:id" element={<MovieDetails />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/trending" element={<Trending />} />
         </Routes>
       </main>
       <ToastContainer position="top-right" autoClose={3000} theme="colored" />

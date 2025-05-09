@@ -8,6 +8,7 @@ import { auth } from "../services/firebase";
 import ThemeToggle from "./ThemeToggle";
 import { useTheme } from "../contexts/ThemeContext";
 
+
 function NavBar() {
     const [user, setUser] = useState(null);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -65,6 +66,7 @@ function NavBar() {
             
             <div className={`navbar-links ${menuOpen ? 'open' : ''}`}>
                 <Link to="/" className={isActive('/')}>Home</Link>
+                <Link to="/trending" className={isActive('/trending')}>Trending</Link>
                 <Link to="/favourites" className={isActive('/favourites')}>Favourites</Link>
                 <ThemeToggle />
                 

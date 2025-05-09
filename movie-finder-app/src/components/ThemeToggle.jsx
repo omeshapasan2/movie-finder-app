@@ -4,6 +4,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4'; // Moon icon
 import Brightness7Icon from '@mui/icons-material/Brightness7'; // Sun icon
 import { useTheme } from '../contexts/ThemeContext'; // Adjust the import path as needed
 
+
 function ThemeToggle() {
   const { darkMode, toggleTheme } = useTheme();
 

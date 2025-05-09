@@ -35,3 +35,18 @@ export const searchMovies = async (query) => {
     throw error;
   }
 };
+
+export const getTrendingMovies = async (page = 1) => {
+    const url = `${BASE_URL}/trending/movie/day?api_key=${API_KEY}&page=${page}`;
+
+    try {
+        const response = await axios.get(url);
+        // Filter out adult movies
+        const filteredMovies = response.data.results.filter(movie => !movie.adult);
+        return filteredMovies;
+    } catch (error) {
+        console.error('Error fetching trending movies:', error);
+        throw error;
+    }
+};
+  
