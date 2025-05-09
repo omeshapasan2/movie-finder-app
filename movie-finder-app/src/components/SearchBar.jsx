@@ -1,5 +1,6 @@
 import React from 'react'
 import "../css/SearchBar.css"
+import { FaSearch } from "react-icons/fa";
 
 const SearchBar = ({value, onChange, onSubmit}) => {
   return (
@@ -12,8 +13,9 @@ const SearchBar = ({value, onChange, onSubmit}) => {
                 value={value}
                 onChange={onChange}
             />
-            <button type="submit" className="search-button">Search</button>
+            <button type="submit" className="search-button"><FaSearch /></button>
         </form>
+        <br/>
     </div>
   )
 }

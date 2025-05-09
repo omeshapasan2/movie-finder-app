@@ -15,23 +15,24 @@ import {
   InputAdornment,
   IconButton,
   Divider,
-  useMediaQuery
+  useMediaQuery,
+  CircularProgress
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { 
   Email, 
-  Person, 
   Lock, 
   Visibility, 
   VisibilityOff, 
   CheckCircleOutline 
 } from '@mui/icons-material';
 import { createTheme, ThemeProvider, alpha } from '@mui/material/styles';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../services/firebase';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
+// Theme configuration
 const theme = createTheme({
   palette: {
     mode: 'dark',
@@ -140,8 +141,6 @@ const theme = createTheme({
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -149,8 +148,6 @@ export default function Register() {
   });
   
   const [errors, setErrors] = useState({
-    firstName: false,
-    lastName: false,
     email: false,
     password: false,
     confirmPassword: false,
@@ -179,14 +176,17 @@ export default function Register() {
     }
   };
 
+  const validateEmail = (email) => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     const newErrors = {
-      firstName: formData.firstName.trim() === '',
-      lastName: formData.lastName.trim() === '',
-      email: formData.email.trim() === '' || !formData.email.includes('@'),
-      password: formData.password.trim() === '' || formData.password.length < 6,
+      email: !validateEmail(formData.email),
+      password: formData.password.length < 6,
       confirmPassword: formData.confirmPassword !== formData.password,
       acceptTerms: !formData.acceptTerms
     };
@@ -196,17 +196,44 @@ export default function Register() {
     if (!Object.values(newErrors).some(error => error)) {
       setIsLoading(true);
       try {
+        // Create user account with Firebase
         const userCredential = await createUserWithEmailAndPassword(
           auth, 
           formData.email, 
           formData.password
         );
-        console.log('User registered:', userCredential.user);
+        
+        // Optional: Update the user profile with first and last name
+        if (formData.firstName || formData.lastName) {
+          await updateProfile(userCredential.user, {
+            displayName: `${formData.firstName} ${formData.lastName}`.trim()
+          });
+        }
+        
+        console.log('User registered successfully:', userCredential.user);
+        
+        // Show success message
         toast.success("Registration successful! Welcome to HyperMovies!");
+        
+        // Navigate to home page or dashboard
         navigate('/');
       } catch (error) {
-        console.error('Registration error:', error.message);
-        toast.error(error.message || "Registration failed. Please try again.");
+        console.error('Registration error:', error);
+        
+        // Handle specific Firebase Auth errors with user-friendly messages
+        let errorMessage = "Registration failed. Please try again.";
+        
+        if (error.code === 'auth/email-already-in-use') {
+          errorMessage = "This email is already registered. Please use a different email or try logging in.";
+        } else if (error.code === 'auth/invalid-email') {
+          errorMessage = "Invalid email format. Please check your email and try again.";
+        } else if (error.code === 'auth/weak-password') {
+          errorMessage = "Password is too weak. Please use a stronger password.";
+        } else if (error.code === 'auth/network-request-failed') {
+          errorMessage = "Network error. Please check your internet connection and try again.";
+        }
+        
+        toast.error(errorMessage);
       } finally {
         setIsLoading(false);
       }
@@ -267,9 +294,8 @@ export default function Register() {
               Join HyperMovies to track and discover your favorite films
             </Typography>
             
-            <Box component="form" noValidate onSubmit={handleSubmit}>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ width: '100%' }}>
               <Grid container spacing={2}>
-                
                 <Grid item width={'100%'}>
                   <TextField
                     required
@@ -403,7 +429,12 @@ export default function Register() {
                   fontSize: '1rem'
                 }}
               >
-                {isLoading ? 'Creating Account...' : 'Create Account'}
+                {isLoading ? (
+                  <>
+                    <CircularProgress size={24} color="inherit" sx={{ mr: 1 }} />
+                    Creating Account...
+                  </>
+                ) : 'Create Account'}
               </Button>
               
               <Divider sx={{ my: 2 }}>
