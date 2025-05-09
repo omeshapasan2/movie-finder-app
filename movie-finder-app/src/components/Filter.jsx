@@ -115,7 +115,9 @@ function Filter({ filters, onChange }) {
               min="1900"
               max={new Date().getFullYear()}
             />
-            <span style={{ margin: '0 8px' }}>to</span>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '3vh' }}>
+              {/* <span>to</span> */}
+            </div>
             <input
               id="yearEnd"
               type="number"
