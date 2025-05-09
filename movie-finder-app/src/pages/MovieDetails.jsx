@@ -136,6 +136,18 @@ function MovieDetails() {
                 <ul className="cast-list">
                   {cast.map(actor => (
                     <li key={actor.cast_id} className="cast-item">
+                      {actor.profile_path ? (
+                        <div className="cast-image">
+                          <img 
+                            src={`https://image.tmdb.org/t/p/w185${actor.profile_path}`} 
+                            alt={actor.name}
+                          />
+                        </div>
+                      ) : (
+                        <div className="cast-image no-profile">
+                          <span>{actor.name.charAt(0)}</span>
+                        </div>
+                      )}
                       <div className="cast-name">{actor.name}</div>
                       <div className="cast-character">as {actor.character}</div>
                     </li>
